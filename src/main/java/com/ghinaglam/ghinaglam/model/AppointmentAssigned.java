@@ -20,6 +20,7 @@ public class AppointmentAssigned extends BaseEntity{
     @ManyToOne
     private User user;
 //    TODO: How to map makeupArtists
+
     private Status status = Status.STARTED;
     private LocalDate dateCompleted;
 

@@ -12,7 +12,6 @@ import javax.persistence.OneToOne;
 @Entity
 public class Client extends BaseEntity{
     private int age;
-    private Enum gender;
 
     @OneToOne
     private User user;

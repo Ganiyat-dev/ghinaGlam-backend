@@ -30,18 +30,18 @@ public class AppointmentController {
         return ResponseEntity.ok().body(appointmentService.getAllAppointments());
     }
 
-    @GetMapping("/status/{status}")
-    public ResponseEntity<List<AppointmentDto>> getAppointmentByStatus(@PathVariable("status") Status status) {
-        return ResponseEntity.ok().body(appointmentService.getAppointmentByStatus(status));
-
-    }
+//    @GetMapping("/status/{status}")
+//    public ResponseEntity<List<AppointmentDto>> getAppointmentByStatus(@PathVariable("status") Status status) {
+//        return ResponseEntity.ok().body(appointmentService.getAppointmentByStatus(status));
+//
+//    }
     @GetMapping("/date/{date}")
     public ResponseEntity<List<Appointment>> getAppointmentByStartDate(@PathVariable("date") LocalDate startDate) {
         return ResponseEntity.ok().body(appointmentService.getAppointmentByStartDate(startDate) );
 
     }
-    @PatchMapping("/{appointmentId}/status/{status}")
-    public ResponseEntity<AppointmentDto> updateAppointmentStatus(@PathVariable("appointmentId") Long appointmentId, @PathVariable("status") Status status) {
-        return ResponseEntity.ok().body(appointmentService.updateAppointmentStatus(appointmentId, status));
-    }
+//    @PatchMapping("/{appointmentId}/status/{status}")
+//    public ResponseEntity<AppointmentDto> updateAppointmentStatus(@PathVariable("appointmentId") Long appointmentId, @PathVariable("status") Status status) {
+//        return ResponseEntity.ok().body(appointmentService.updateAppointmentStatus(appointmentId, status));
+//    }
 }

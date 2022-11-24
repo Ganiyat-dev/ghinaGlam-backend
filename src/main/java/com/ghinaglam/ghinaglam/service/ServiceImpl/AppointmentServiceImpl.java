@@ -4,12 +4,10 @@ import com.ghinaglam.ghinaglam.dto.AppointmentDto;
 import com.ghinaglam.ghinaglam.model.Appointment;
 import com.ghinaglam.ghinaglam.model.Client;
 import com.ghinaglam.ghinaglam.model.Plan;
-import com.ghinaglam.ghinaglam.model.Status;
 import com.ghinaglam.ghinaglam.repository.AppointmentRepository;
 import com.ghinaglam.ghinaglam.repository.ClientRepository;
 import com.ghinaglam.ghinaglam.repository.PlanRepository;
 import com.ghinaglam.ghinaglam.service.AppointmentService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -17,8 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,24 +34,25 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public AppointmentDto createAppointment(Long clientId, Long planId,
                                             AppointmentDto appointmentDto) {
-        Appointment appointment = mapToEntity(appointmentDto);
         Client client = clientRepository.findById(clientId).orElseThrow(() -> new IllegalStateException("Client with the id" + clientId + " not found"));
-
         Plan plan = planRepository.findById(planId).orElseThrow(() -> new IllegalStateException("No Plan found"));
+        appointmentDto.setEndDate(calcEndDate(appointmentDto.getStartDate(), plan.getPlanSession()));
+
+        Appointment appointment = mapToEntity(appointmentDto);
         appointment.setClient(client);
         appointment.setPlan(plan);
-        appointment.setStatus(Status.STARTED);
+
+//        appointment.setStatus(Status.STARTED);
 
         return mapToDto(appointmentRepository.save(appointment));
     }
 
-    @Override
-    @Transactional
-    public AppointmentDto updateAppointmentStatus(Long appointmentId, Status status) {
-            Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new IllegalStateException("Appointment does not exist"));
-            appointment.setStatus(status);
-            return mapToDto(appointment);
-    }
+//    @Override
+//    @Transactional
+//    public AppointmentDto updateAppointmentStatus(Long appointmentId, Status status) {
+//            Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new IllegalStateException("Appointment does not exist"));
+//            return mapToDto(appointment);
+//    }
 
     @Override
     public List<AppointmentDto> getAllAppointments() { //Only Admin is authorized to perform this action
@@ -65,10 +64,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<AppointmentDto> getAppointmentByStatus(Status status) {
-        return appointmentRepository.findAppointmentByStatus(status).stream().map(this::mapToDto).toList();
-    }
-    @Override
     public List<Appointment> getAppointmentByStartDate(LocalDate startDate) {
         return appointmentRepository.findAppointmentByStartDate(startDate);
     }
@@ -79,6 +74,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
     private Appointment mapToEntity(AppointmentDto appointmentDto) {
         return mapper.map(appointmentDto, Appointment.class);
+    }
+
+    private LocalDateTime calcEndDate(LocalDateTime startDate, Long planSession) {
+        log.info("the end date is {}", startDate.plusDays(7 * planSession));
+        return startDate.plusDays(7 * planSession);
     }
 
 }

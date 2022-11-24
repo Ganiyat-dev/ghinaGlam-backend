@@ -12,5 +12,5 @@ public class PlanDto {
     private String planName;
     private String planDescription;
     private double planPrice;
-    private int planSession;
+    private Long planSession;
 }

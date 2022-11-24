@@ -26,9 +26,9 @@ public class PlanController {
     public ResponseEntity<PlanDto> getPlan(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(planService.getPlan(id));
     }
-    @PostMapping("/plan")
-    public ResponseEntity<PlanDto> savePlan(@RequestBody PlanDto planDto) {
-        return ResponseEntity.ok().body(planService.savePlan(planDto));
+    @PostMapping("/plan/{services}")
+    public ResponseEntity<PlanDto> savePlan(@PathVariable List<Long> services, @RequestBody PlanDto planDto) {
+        return ResponseEntity.ok().body(planService.savePlan(planDto, services));
     }
 
     @PostMapping("/plan/addService")

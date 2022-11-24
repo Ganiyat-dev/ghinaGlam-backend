@@ -14,7 +14,7 @@ public interface PlanService {
 
     void addServiceToPlan(long serviceId, long planId);
 
-    PlanDto savePlan(PlanDto planDto);
+    PlanDto savePlan(PlanDto planDto, List<Long> servicesId);
 
     String deletePlan(Long id);
 

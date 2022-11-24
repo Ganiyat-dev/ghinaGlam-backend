@@ -12,7 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +41,17 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public PlanDto savePlan(PlanDto planDto) {
+    public PlanDto savePlan(PlanDto planDto, List<Long> servicesId) {
+
+        if (servicesId != null) {
+            Set<ServicePlan> servicePlanSet = new HashSet<>();
+            for (long serviceId: servicesId) {
+                log.info("The service plan is {}", serviceId);
+                ServicePlan servicePlan = servicePlanRepository.findById(serviceId).orElseThrow(()-> new IllegalStateException("No service found"));
+                servicePlanSet.add(servicePlan);
+            }
+            planDto.setServicePlans(servicePlanSet);
+        }
         Plan plan = mapToEntity(planDto);
         if (planRepository.existsByPlanName(plan.getPlanName())) {
             throw new IllegalStateException("Plan Already Exists");
@@ -62,10 +74,7 @@ public class PlanServiceImpl implements PlanService {
     public void addServiceToPlan(long serviceId, long planId) {
         log.info("Adding service to Plan");
         ServicePlan servicePlan = servicePlanRepository.findById(serviceId).orElseThrow(()-> new IllegalStateException("No service found"));
-        log.info("Service plan is {}", servicePlan.getId());
         Plan plan = planRepository.findById(planId).orElseThrow(()-> new IllegalStateException("No Plan found"));
-        log.info("The plan is {}", plan.getId());
-
         plan.getServicePlans().add(servicePlan);
     }
 

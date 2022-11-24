@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -16,9 +17,5 @@ import java.util.List;
 public class ServicePlan extends BaseEntity {
     private String serviceName;
     private String serviceDetails;
-
-    @JsonIgnore
-    @ManyToMany
-    private List<Plan> plan = new ArrayList<>();
 
 }

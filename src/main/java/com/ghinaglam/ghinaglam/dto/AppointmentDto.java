@@ -6,13 +6,17 @@ import com.ghinaglam.ghinaglam.model.Status;
 
 import lombok.Data;
 
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 public class AppointmentDto {
     private Integer id;
-    private LocalDate startDate;
-    private Status status = Status.PENDING;
+    private LocalDateTime startDate;
+//    private LocalTime appointmentStartTime;
+    private LocalDateTime endDate;
     private Boolean isAssigned = false;
     private Client client;
     private Plan plan;

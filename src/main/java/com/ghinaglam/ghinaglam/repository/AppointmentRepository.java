@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
-    List<Appointment> findAppointmentByStatus(Status status);
 
     @Override
     Optional<Appointment> findById(Long aLong);

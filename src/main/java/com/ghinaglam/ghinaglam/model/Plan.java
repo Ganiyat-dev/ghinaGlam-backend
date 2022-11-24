@@ -21,7 +21,7 @@ public class Plan extends BaseEntity {
     private String planName;
     private String planDescription;
     private double planPrice;
-    private int planSession;
+    private Long planSession;
 
     @ManyToMany(mappedBy = "plan")
     private List<ServicePlan> servicePlans = new ArrayList<>();

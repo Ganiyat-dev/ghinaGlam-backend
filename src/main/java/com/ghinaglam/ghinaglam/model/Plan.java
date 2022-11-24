@@ -3,13 +3,11 @@ package com.ghinaglam.ghinaglam.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,8 +21,9 @@ public class Plan extends BaseEntity {
     private double planPrice;
     private int planSession;
 
-    @ManyToMany(mappedBy = "plan")
-    private List<ServicePlan> servicePlans = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "plan_services", joinColumns = @JoinColumn(name = "plan_id"), inverseJoinColumns = @JoinColumn(name = "service_plan_id"))
+    private Set<ServicePlan> servicePlans;
     @JsonIgnore
     @OneToMany
     private List<Appointment> appointment;

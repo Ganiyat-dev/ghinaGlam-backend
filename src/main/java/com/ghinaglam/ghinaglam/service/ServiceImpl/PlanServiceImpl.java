@@ -2,9 +2,12 @@ package com.ghinaglam.ghinaglam.service.ServiceImpl;
 
 import com.ghinaglam.ghinaglam.dto.PlanDto;
 import com.ghinaglam.ghinaglam.model.Plan;
+import com.ghinaglam.ghinaglam.model.ServicePlan;
 import com.ghinaglam.ghinaglam.repository.PlanRepository;
+import com.ghinaglam.ghinaglam.repository.ServicePlanRepository;
 import com.ghinaglam.ghinaglam.service.PlanService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +17,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class PlanServiceImpl implements PlanService {
     private final PlanRepository planRepository;
+
+    private final ServicePlanRepository servicePlanRepository;
 
     private final ModelMapper mapper = new ModelMapper();
 
@@ -50,6 +56,17 @@ public class PlanServiceImpl implements PlanService {
         plan.setPlanSession(planDto.getPlanSession());
 
         return mapToDto(planRepository.save(plan));
+    }
+
+    @Override
+    public void addServiceToPlan(long serviceId, long planId) {
+        log.info("Adding service to Plan");
+        ServicePlan servicePlan = servicePlanRepository.findById(serviceId).orElseThrow(()-> new IllegalStateException("No service found"));
+        log.info("Service plan is {}", servicePlan.getId());
+        Plan plan = planRepository.findById(planId).orElseThrow(()-> new IllegalStateException("No Plan found"));
+        log.info("The plan is {}", plan.getId());
+
+        plan.getServicePlans().add(servicePlan);
     }
 
     @Override

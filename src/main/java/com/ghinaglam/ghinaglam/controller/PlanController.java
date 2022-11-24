@@ -1,10 +1,10 @@
 package com.ghinaglam.ghinaglam.controller;
 
 import com.ghinaglam.ghinaglam.dto.PlanDto;
+import com.ghinaglam.ghinaglam.dto.ServicesToPlanDto;
 import com.ghinaglam.ghinaglam.model.Plan;
 import com.ghinaglam.ghinaglam.service.PlanService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +29,12 @@ public class PlanController {
     @PostMapping("/plan")
     public ResponseEntity<PlanDto> savePlan(@RequestBody PlanDto planDto) {
         return ResponseEntity.ok().body(planService.savePlan(planDto));
+    }
+
+    @PostMapping("/plan/addService")
+    public ResponseEntity<?> addServicesToPlan(@RequestBody ServicesToPlanDto servicesToPlanDto) {
+        planService.addServiceToPlan(servicesToPlanDto.getServiceId(), servicesToPlanDto.getPlanId());
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping(value = "/plan/{id}")

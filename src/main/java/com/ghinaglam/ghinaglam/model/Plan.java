@@ -24,6 +24,7 @@ public class Plan extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "plan_services", joinColumns = @JoinColumn(name = "plan_id"), inverseJoinColumns = @JoinColumn(name = "service_plan_id"))
     private Set<ServicePlan> servicePlans;
+
     @JsonIgnore
     @OneToMany
     private List<Appointment> appointment;

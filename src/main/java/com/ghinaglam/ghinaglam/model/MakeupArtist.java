@@ -2,10 +2,7 @@ package com.ghinaglam.ghinaglam.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.*;
 
 
@@ -22,8 +19,10 @@ public class MakeupArtist extends BaseEntity {
     //    @Column(unique = true)
     private String phoneNumber;
     private String password;
-    private String gender;
-    private String license;
+    private String licensePath;
+
+    @Lob
+    private byte[] licenseData;
     private int yearsOfExperience;
     private double salary;
     private Category category = Category.MAKEUP_ARTIST;

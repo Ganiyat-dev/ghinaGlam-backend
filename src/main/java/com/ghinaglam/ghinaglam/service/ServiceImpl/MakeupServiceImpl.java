@@ -10,6 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -35,7 +38,8 @@ public class MakeupServiceImpl implements MakeupService {
     }
 
     @Override
-    public MakeUpDto saveMakeupArtist(MakeUpDto makeUpDto) {
+    public MakeUpDto saveMakeupArtist(MultipartFile file, MakeUpDto makeUpDto) throws Exception {
+        upload(file, makeUpDto);
         MakeupArtist makeupArtist = mapToEntity(makeUpDto);
         if (makeupRepository.existsByEmail(makeupArtist.getEmail())) {
             throw new IllegalStateException("Email Already Exists");
@@ -61,6 +65,25 @@ public class MakeupServiceImpl implements MakeupService {
             return "Artist deleted!";
         }
         throw new IllegalStateException("Makeup Artist not found!");
+    }
+
+    public void upload(MultipartFile file, MakeUpDto makeUpDto) throws Exception{
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        try {
+            if (fileName.contains("..")){
+                throw new Exception("Filename contains invalid sequence " + fileName);
+            }
+            String path = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/api/download/")
+                    .path(fileName)
+                    .toUriString();
+//            Attach attach = new Attach(fileName, path, file.getContentType(), file.getBytes());
+            makeUpDto.setLicensePath(path);
+            makeUpDto.setLicenseData(file.getBytes());
+//            return attachRepo.save(attach);
+        } catch (Exception e){
+            throw new Exception("Could not save file " + fileName);
+        }
     }
 
     private MakeUpDto mapToDto(MakeupArtist makeupArtist) {

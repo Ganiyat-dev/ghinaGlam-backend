@@ -15,6 +15,8 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
+//@CrossOrigin(origins = "http://localhost:3000")
+
 public class ClientController extends BaseEntity {
     private final ClientService clientService;
 

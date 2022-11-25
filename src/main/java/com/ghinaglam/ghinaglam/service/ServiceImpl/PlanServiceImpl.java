@@ -60,11 +60,8 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public void addServiceToPlan(long serviceId, long planId) {
-        log.info("Adding service to Plan");
         ServicePlan servicePlan = servicePlanRepository.findById(serviceId).orElseThrow(()-> new IllegalStateException("No service found"));
-        log.info("Service plan is {}", servicePlan.getId());
         Plan plan = planRepository.findById(planId).orElseThrow(()-> new IllegalStateException("No Plan found"));
-        log.info("The plan is {}", plan.getId());
 
         plan.getServicePlans().add(servicePlan);
     }

@@ -13,11 +13,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PlanController {
 
     private final PlanService planService;
-//    TODO: Include connect each plan to its corresponding service
+//    TODO: Include connect each plan wo its corresponding service
     @GetMapping("/plans")
     public ResponseEntity<List<Plan>> getPlans() {
         return ResponseEntity.ok().body(planService.getPlans());
@@ -27,9 +27,9 @@ public class PlanController {
     public ResponseEntity<PlanDto> getPlan(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(planService.getPlan(id));
     }
-    @PostMapping("/plan")
-    public ResponseEntity<PlanDto> savePlan(@RequestBody PlanDto planDto) {
-        return ResponseEntity.ok().body(planService.savePlan(planDto));
+    @PostMapping("/plan/{services}")
+    public ResponseEntity<PlanDto> savePlan(@PathVariable List<Long> services, @RequestBody PlanDto planDto) {
+        return ResponseEntity.ok().body(planService.savePlan(planDto, services));
     }
 
     @PostMapping("/plan/addService")

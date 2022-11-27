@@ -3,6 +3,7 @@ package com.ghinaglam.ghinaglam.controller;
 import com.ghinaglam.ghinaglam.dto.PlanDto;
 import com.ghinaglam.ghinaglam.dto.ServicesToPlanDto;
 import com.ghinaglam.ghinaglam.model.Plan;
+import com.ghinaglam.ghinaglam.model.ServicePlan;
 import com.ghinaglam.ghinaglam.service.PlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

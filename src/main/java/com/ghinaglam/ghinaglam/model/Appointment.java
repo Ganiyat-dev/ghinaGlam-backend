@@ -13,8 +13,6 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "appointments")
 public class Appointment extends BaseEntity {
     private LocalDateTime startDate;

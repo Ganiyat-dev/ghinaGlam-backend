@@ -1,4 +1,4 @@
-package com.ghinaglam.ghinaglam.security;
+package com.ghinaglam.ghinaglam.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

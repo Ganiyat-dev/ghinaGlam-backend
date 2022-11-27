@@ -58,6 +58,14 @@ public class PlanServiceImpl implements PlanService {
         }
         return mapToDto(planRepository.save(plan));
     }
+//    @Override
+//    public PlanDto savePlan(PlanDto planDto) {
+//        Plan plan =mapToEntity(planDto);
+//        if (servicePlanRepository.existsById(planDto.getId())) {
+//            throw new IllegalStateException("Service already Exists");
+//        }
+//        return mapToDto(planRepository.save(plan));
+//    }
     @Transactional
     public PlanDto updatePlan(Long id, PlanDto planDto) {
         Plan plan = planRepository.findById(id).orElseThrow(() -> new IllegalStateException(

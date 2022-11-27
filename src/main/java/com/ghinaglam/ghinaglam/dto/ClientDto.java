@@ -1,5 +1,5 @@
 package com.ghinaglam.ghinaglam.dto;
-import com.ghinaglam.ghinaglam.model.Category;
+import com.ghinaglam.ghinaglam.model.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +13,7 @@ public class ClientDto {
     private Long id;
     @NotEmpty
     private String firstName;
-    @NotEmpty
+
     private String lastName;
 
     @NotEmpty
@@ -22,9 +22,6 @@ public class ClientDto {
 
     @NotEmpty
     @Column(unique = true)
-
-    @NotEmpty
-    private String password;
 
     private String phoneNumber;
 
@@ -37,6 +34,6 @@ public class ClientDto {
     private String gender;
     private String address;
 
-    private Category category = Category.CLIENT;
+  private AppUserDto user;
 
 }

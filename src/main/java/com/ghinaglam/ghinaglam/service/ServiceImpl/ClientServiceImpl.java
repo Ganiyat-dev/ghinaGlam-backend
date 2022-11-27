@@ -2,6 +2,7 @@ package com.ghinaglam.ghinaglam.service.ServiceImpl;
 
 import com.ghinaglam.ghinaglam.dto.ClientDto;
 import com.ghinaglam.ghinaglam.exception.ResourceNotFoundException;
+import com.ghinaglam.ghinaglam.model.AppUser;
 import com.ghinaglam.ghinaglam.model.Client;
 import com.ghinaglam.ghinaglam.repository.ClientRepository;
 import com.ghinaglam.ghinaglam.service.ClientService;
@@ -29,19 +30,24 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDto getClient(String email) {
-        if (clientRepository.existsByEmail(email)) {
-            return mapToDto(clientRepository.findByEmail(email));
-        }
-        throw new ResourceNotFoundException("Client not found");
+    public ClientDto getClient(Long clientId) {
+//        if (clientRepository.existsById(id)) {
+//            return mapToDto(clientRepository.findById(id));
+//        }
+//        throw new ResourceNotFoundException("Client not found");
+        log.info("Get Client with this id {}", clientId);
+        return mapToDto(clientRepository.findById(clientId).orElseThrow(()-> new IllegalStateException("Client with the id doest not exist")));
+
     }
 
     @Override
-    public ClientDto saveClient(ClientDto clientDto) {
+    public ClientDto saveClient(ClientDto clientDto, AppUser currentUser) throws Exception{
         Client client = mapToEntity(clientDto);
-        if (clientRepository.existsByEmail(client.getEmail())) {
-            throw new IllegalStateException("Email already exists");
-        }
+//        did not set current user in owner
+        client.setAppUser(currentUser);
+//        if (clientRepository.existsByEmail(client.getEmail())) {
+//            throw new IllegalStateException("Email already exists");
+//        }
         return mapToDto(clientRepository.save(client));
     }
 
@@ -49,9 +55,9 @@ public class ClientServiceImpl implements ClientService {
     public ClientDto updateClient(Long id, ClientDto clientDto) {
         Client client = clientRepository.findById(id).orElseThrow(() -> new IllegalStateException(
                 "Client with the " + id + "does not exist"));
-        client.setFirstName(clientDto.getFirstName());
-        client.setLastName(clientDto.getLastName());
-        client.setPhoneNumber(clientDto.getPhoneNumber());
+        client.setStreetAddress(clientDto.getStreetAddress());
+        client.setCity(clientDto.getCity());
+        client.setState(clientDto.getState());
 
         return mapToDto(clientRepository.save(client));
     }

@@ -2,11 +2,7 @@ package com.ghinaglam.ghinaglam.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import java.util.List;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -15,23 +11,21 @@ import java.util.List;
 @Entity
 @Table(name = "clients")
 public class Client extends BaseEntity {
-    private String firstName;
-    private String lastName;
-    //    @Column(name = "email", unique = true)
-    private String email;
+
+    @OneToOne
+    private AppUser appUser;
+
+    @Column(nullable = false)
     private String gender;
     //    @Column(unique = true)
-    private String phoneNumber;
-    private String password;
     private String address;
-
-    private Category category = Category.CLIENT;
 
     @Transient
     private String streetAddress;
     @Transient
     private String city;
     @Transient
+    @Column(nullable = false)
     private String state;
 
 //    @OneToMany(mappedBy = "client")

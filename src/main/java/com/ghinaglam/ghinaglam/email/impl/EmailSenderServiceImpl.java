@@ -28,7 +28,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
             helper.setText(email, true);
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setFrom("emma@emmapraise.com");
+            helper.setFrom("ghina@neeyah.com");
             mailSender.send(mimeMailMessage);
         } catch (MessagingException e) {
             LOGGER.error("failed to send email", e);

@@ -2,11 +2,14 @@ package com.ghinaglam.ghinaglam.service.ServiceImpl;
 
 import com.ghinaglam.ghinaglam.model.AppUser;
 import com.ghinaglam.ghinaglam.model.ConfirmationToken;
+import com.ghinaglam.ghinaglam.model.Role;
 import com.ghinaglam.ghinaglam.repository.AppUserRepository;
 import com.ghinaglam.ghinaglam.service.AppUserService;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,9 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -73,9 +74,15 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
-        return appUserRepository.findByEmail(email)
+        AppUser user = appUserRepository.findByEmail(email)
                 .orElseThrow(()-> new UsernameNotFoundException(
                         String.format(USER_NOT_FOUND_MSG, email)));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+                user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+    }
+
+    private Collection< ? extends GrantedAuthority> mapRolesToAuthorities(Role role){
+        return Collections.singleton(new SimpleGrantedAuthority(role.toString()));
     }
 
     @Override

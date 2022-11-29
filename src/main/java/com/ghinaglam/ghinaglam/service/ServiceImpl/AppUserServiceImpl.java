@@ -1,5 +1,6 @@
 package com.ghinaglam.ghinaglam.service.ServiceImpl;
 
+import com.ghinaglam.ghinaglam.dto.LoginDto;
 import com.ghinaglam.ghinaglam.model.AppUser;
 import com.ghinaglam.ghinaglam.model.ConfirmationToken;
 import com.ghinaglam.ghinaglam.model.Role;
@@ -8,8 +9,13 @@ import com.ghinaglam.ghinaglam.service.AppUserService;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +33,7 @@ import java.util.*;
 @Transactional
 @Slf4j
 public class AppUserServiceImpl implements AppUserService, UserDetailsService {
+
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
@@ -104,4 +111,6 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         return token;
     }
+
+
 }

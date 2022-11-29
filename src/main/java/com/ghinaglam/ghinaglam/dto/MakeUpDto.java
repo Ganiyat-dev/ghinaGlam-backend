@@ -11,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 public class MakeUpDto{
     private Long id;
+    @NotEmpty
     private String firstName;
     private String lastName;
     @NotEmpty(message = "Email is required")
@@ -18,12 +19,11 @@ public class MakeUpDto{
     private String email;
 
     private String phoneNumber;
-
-//    private String licensePath;
-//
-//    @Lob
-//    private byte[] licenseData;
+    @NotEmpty
+    private String password;
+    @NotEmpty
     private String specialization;
+    @NotEmpty
     private int yearsOfExperience;
 
     private double salary;

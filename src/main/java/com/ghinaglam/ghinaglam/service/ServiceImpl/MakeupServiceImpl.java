@@ -1,11 +1,13 @@
 package com.ghinaglam.ghinaglam.service.ServiceImpl;
 
 import com.ghinaglam.ghinaglam.dto.MakeUpDto;
+import com.ghinaglam.ghinaglam.dto.RegistrationRequestDto;
 import com.ghinaglam.ghinaglam.exception.ResourceNotFoundException;
 import com.ghinaglam.ghinaglam.model.AppUser;
 import com.ghinaglam.ghinaglam.model.MakeupArtist;
 import com.ghinaglam.ghinaglam.repository.MakeupRepository;
 import com.ghinaglam.ghinaglam.service.MakeupService;
+import com.ghinaglam.ghinaglam.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
